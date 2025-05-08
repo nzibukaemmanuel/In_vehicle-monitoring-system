@@ -113,103 +113,79 @@
   </style>
 </head>
 <body>
-  <!-- Login Box -->
-  <div id="loginBox">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="error" style="color:red; display:none;">Invalid credentials</p>
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <nav>
+      <a href="user.html">Users</a>
+      <a href="flight.html">Flights</a>
+      <a href="passenger.html">Passengers</a>
+      <a href="ticket.html">Tickets</a>
+      <a href="logout.html">Logout</a>
+    </nav>
   </div>
 
-  <!-- Dashboard -->
-  <div id="dashboard" style="display:none; width:100%;">
-    <div class="sidebar">
-      <h2>Dashboard</h2>
-      <nav>
-        <a href="iotdash.html"><strong>IoT Dashboard</strong></a>
-        <a href="#"><strong>Overview</strong></a>
-        <a href="#" onclick="logout()"><strong>Log Out</strong></a>
-      </nav>
+  <div class="main-content">
+    <div class="header">
+      <h1>Welcome, Admin</h1>
+      <button id="logoutBtn">Logout</button>
+    </div>
     </div>
 
     <div class="main-content">
-      <div class="header">
-        <h1>Welcome 👋</h1>
-        <div class="profile">Hello, <strong id="userDisplay"></strong></div>
-      </div>
-
       <div class="dashboard-cards">
         <div class="card">
-          <h3>KIGALI - KARONGI - RUSIZI</h3>
-          <p>Check reports for this road</p>
-          <a href="#" class="btn">Check Reports</a>
-        </div>
-        <div class="card">
-          <h3>KIGALI<br> - HUYE - RUSIZI</h3>
-          <p>Check reports for this road</p>
-          <a href="#" class="btn">Check Reports</a>
-        </div>
-        <div class="card">
-          <h3>KIGALI<br> - MUSANZE - RUBAVU</h3>
-          <p>Check reports for this road</p>
-          <a href="#" class="btn">Check Reports</a>
-        </div>
-        <div class="card">
-          <h3>KIGALI<br> - KAYONZA - RUSUMO</h3>
-          <p>Check reports for this road</p>
-          <a href="#" class="btn">Check Reports</a>
-        </div>
-        <div class="card">
-          <h3>KIGALI - KAYONZA - KAGITUMBA</h3>
-          <p>Check reports for this road</p>
-          <a href="#" class="btn">Check Reports</a>
-        </div>
-        <div class="card">
-          <h3>KIGALI - NGARAMA - NYAGATARE</h3>
-          <p>Check reports for this road</p>
-          <a href="#" class="btn">Check Reports</a>
+          <h3></h3>
+          <p></p>
         </div>
       </div>
     </div>
-  </div>
-
-  <script>
-    const users = [
-      { username: 'UMUBYEYI', password: 'ESP123' },
-      { username: 'INGABIRE', password: 'pass123' },
-      { username: 'NZIBUKA', password: 'NZIBUKA321' }
+</body>
+<script>
+  const getPassengerCount = () => {
+  try {
+    // Simulated/mock response
+    const data = [
+      { id: 1, name: "John Doe" },
+      { id: 2, name: "Jane Doe" },
+      { id: 3, name: "Some Other Passenger" },
     ];
 
-    function login() {
-      const uname = document.getElementById('username').value;
-      const pwd = document.getElementById('password').value;
-      const user = users.find(u => u.username === uname && u.password === pwd);
+    const dashboardCards = document.querySelector('.dashboard-cards');
+    dashboardCards.innerHTML = ''; // Clear existing cards
 
-      if (user) {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'flex';
-        document.getElementById('userDisplay').textContent = uname;
-        localStorage.setItem('loggedInUser', uname);
-      } else {
-        document.getElementById('error').style.display = 'block';
-      }
+    for (const element of data) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const h3 = document.createElement('h3');
+      h3.textContent = `${element.id}`;
+
+      const p = document.createElement('p');
+      p.textContent = `Name: ${element.name}`;
+
+      const button = document.createElement('button');
+      button.className = 'btn';
+      button.textContent = 'View Details';
+      button.onclick = () => {
+        window.location.href = `passenger_details.html?id=${element.id}`;
+      };
+
+      card.appendChild(button);
+
+      card.appendChild(h3);
+      card.appendChild(p);
+      dashboardCards.appendChild(card);
     }
 
-    function logout() {
-      localStorage.removeItem('loggedInUser');
-      location.reload();
-    }
+  } catch (error) {
+    console.error('Error fetching passenger count:', error);
+  }
+};
 
-    // Auto-login if session exists
-    window.onload = function () {
-      const loggedUser = localStorage.getItem('loggedInUser');
-      if (loggedUser) {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'flex';
-        document.getElementById('userDisplay').textContent = loggedUser;
-      }
-    };
-  </script>
-</body>
+getPassengerCount();
+// window.onload = () => {
+//   document.getElementById('dashboard').style.display = 'flex';
+// };
+ // Call the function to fetch data
+</script>
 </html>
